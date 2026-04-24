@@ -10,7 +10,7 @@
 
 ## 📋 Overview
 
-**Personal Food Companion** is an intelligent application designed to help users make informed dietary decisions. Whether you're tracking calories, exploring nutritional information, discovering new recipes, or managing dietary preferences, this companion app provides personalized recommendations and insights at your fingertips.
+**Personal Food Companion** is an intelligent application designed to help users make informed dietary decisions. Whether you're tracking calories, exploring nutritional information, discovering new recipes, or managing specific dietary requirements, this application provides comprehensive tools and personalized insights for a healthier lifestyle.
 
 ### ✨ Key Features
 
@@ -20,6 +20,7 @@
 - ❤️ **Personalized Recommendations** - Get food suggestions based on your goals and preferences
 - 🎯 **Dietary Management** - Support for various dietary requirements (vegan, gluten-free, keto, etc.)
 - 📱 **User-Friendly Interface** - Intuitive design for seamless experience
+- 🔐 **Secure Authentication** - JWT-based authentication with session management
 
 ---
 
@@ -94,6 +95,27 @@ Personal-food-Companion/
 | **Frontend** | HTML5, CSS3, JavaScript |
 | **APIs** | REST API for data operations |
 | **Analytics** | Data visualization libraries |
+| **Authentication** | JWT, OAuth2 Integration |
+
+---
+
+## 🔐 Authentication
+
+### User Authentication Methods
+
+- **Email & Password** - Standard email registration with secure password hashing (bcrypt)
+- **OAuth2 Integration** - Support for Google and GitHub authentication
+- **JWT Tokens** - Stateless session management with JWT tokens
+- **Session Management** - Secure cookie-based sessions with refresh tokens
+
+### Getting Started with Authentication
+
+After installation, users can:
+
+1. **Register** - Create a new account with email validation
+2. **Login** - Access your account using email/password or OAuth providers
+3. **Manage Account** - Update profile information and security settings
+4. **Logout** - Securely end sessions
 
 ---
 
@@ -101,10 +123,14 @@ Personal-food-Companion/
 
 ### Endpoints
 
-- `GET /api/nutrition` - Retrieve nutrition data
-- `POST /api/meals/log` - Log a new meal
-- `GET /api/recipes` - Fetch recipe recommendations
-- `POST /api/goals` - Set dietary goals
+- `GET /api/nutrition` - Retrieve nutrition data (requires authentication)
+- `POST /api/meals/log` - Log a new meal (requires authentication)
+- `GET /api/recipes` - Fetch recipe recommendations (requires authentication)
+- `POST /api/goals` - Set dietary goals (requires authentication)
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
+- `POST /auth/logout` - User logout
+- `POST /auth/refresh` - Refresh authentication token
 
 For detailed API documentation, see [API.md](./API.md) (if available).
 
@@ -127,11 +153,13 @@ Please ensure your code follows our coding standards and includes appropriate te
 ## 📋 Roadmap
 
 - [x] Basic nutrition tracking
+- [x] User authentication system
 - [ ] Advanced recipe filtering
 - [ ] Social sharing features
 - [ ] Mobile app integration
 - [ ] AI-powered meal recommendations
 - [ ] Integration with fitness trackers
+- [ ] Multi-language support
 
 ---
 
@@ -155,21 +183,13 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 👨‍💻 Author
 
 **Yash Mishra**  
-[GitHub Profile](https://github.com/yashmishra123455) | [Email](mailto:your-email@example.com)
+[GitHub Profile](https://github.com/yashmishra123455)
 
 ---
 
 ## ⭐ Show Your Support
 
 If you find this project helpful, please consider giving it a star! Your support motivates us to keep improving.
-
----
-
-## 📞 Contact & Support
-
-- 📧 Email: [your-email@example.com]
-- 💬 Discussions: [GitHub Discussions](https://github.com/yashmishra123455/Personal-food-Companion/discussions)
-- 🐛 Issues: [Report an Issue](https://github.com/yashmishra123455/Personal-food-Companion/issues)
 
 ---
 
