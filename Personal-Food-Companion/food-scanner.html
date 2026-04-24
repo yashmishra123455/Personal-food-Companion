@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NutriScan — Food Image Classifier</title>
+
+  <!-- TensorFlow.js & MobileNet -->
+ <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+
+
+  <link rel="stylesheet" href="food-scanner.css" defer>
+  <link rel="stylesheet" href="barcode-scanner.css">
+</head>
+<body>
+  <div class="ns-wrap green-theme">
+
+    <nav class="ns-nav">
+      <div class="brand">🍏 <strong>NutriScan</strong> — Food Scanner</div>
+      <div class="nav-actions"><small id="modelStatus">Loading model…</small></div>
+    </nav>
+
+    <main class="ns-grid three-col">
+
+      <!-- COLUMN 1: PROFILE (collapsible) -->
+      <aside class="col col-left">
+        <div class="panel profile-panel">
+          <div class="panel-head">
+            <h3>Profile</h3>
+            <div>
+              <button id="toggleProfile" class="btn small ghost">Collapse</button>
+            </div>
+          </div>
+
+          <div id="profileBody" class="panel-body profile-body">
+            <form id="userProfileForm">
+              <div class="row-2">
+                <label>
+                  Name
+                  <input id="name" type="text" placeholder="Your name">
+                </label>
+                <label>
+                  Age
+                  <input id="age" type="number" min="1">
+                </label>
+              </div>
+
+              <div class="row-2">
+                <label>
+                  Gender
+                  <select id="gender">
+                    <option value="">Prefer not</option>
+                    <option>male</option>
+                    <option>female</option>
+                    <option>other</option>
+                  </select>
+                </label>
+                <label>
+                  Activity
+                  <select id="activity">
+                    <option value="sedentary">Sedentary</option>
+                    <option value="light">Light</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="active">Active</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="row-2">
+                <label>
+                  Height (cm)
+                  <input id="height" type="number">
+                </label>
+                <label>
+                  Weight (kg)
+                  <input id="weight" type="number">
+                </label>
+              </div>
+
+              <label>
+                Diet type
+                <select id="diet">
+                  <option value="omnivore">Non-vegetarian</option>
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                </select>
+              </label>
+
+              <label>
+                Health goal
+                <select id="goal">
+                  <option value="maintenance">Maintenance</option>
+                  <option value="weight_loss">Weight Loss</option>
+                  <option value="muscle_gain">Muscle Gain</option>
+                  <option value="diabetes">Diabetes</option>
+                </select>
+              </label>
+
+              <label>
+                Allergies (comma separated)
+                <input id="allergies" type="text" placeholder="peanut, gluten, dairy">
+              </label>
+
+              <div class="actions-row">
+                <button type="submit" class="btn">Save locally</button>
+                <button id="btnSaveCloud" type="button" class="btn ghost">Save to cloud</button>
+              </div>
+              <p id="saveMsg" class="save-msg">✔ Saved</p>
+            </form>
+          </div>
+        </div>
+      </aside>
+      <!-- CENTER: image classifier -->
+      <section class="col col-center">
+        <div class="panel scanner-panel">
+          <div class="panel-head"><h3>Capture Food Image here...</h3></div>
+          <div class="panel-body">
+
+            <div class="camera-stage">
+              <video id="foodVideo" autoplay muted playsinline></video>
+            </div>
+
+            <div class="controls">
+              <button id="startFoodCam" class="btn">Start Camera</button>
+              <button id="takeFoodPhoto" class="btn">Take Photo</button>
+              <button id="stopFoodCam" class="btn ghost">Stop</button>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <div class="upload-row">
+              <input id="foodImageUpload" type="file" accept="image/*" hidden>
+              <button id="foodUploadBtn" class="btn">Upload Food Image</button>
+            </div>
+
+            <div class="preview-box">
+              <img id="foodPreview" alt="preview" style="display:none; max-width:100%;">
+            </div>
+
+            <div id="foodHelp" class="help small muted">Uploaded photo will be shown here</div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS (right) -->
+      <aside class="col col-right">
+        <div class="panel result-panel">
+          <div class="panel-head">
+            <h3>Result</h3>
+            <div id="foodBadge"></div>
+          </div>
+          <div class="panel-body">
+            <div id="foodProductInfo" class="product-info">No image classified yet.</div>
+
+            <div id="foodNutriList" class="nutri-list hidden">
+              <div class="nutri-item"><div id="foodCalVal">-</div><small>kcal (est)</small></div>
+              <div class="nutri-item"><div id="foodSugVal">-</div><small>sugar g (est)</small></div>
+              <div class="nutri-item"><div id="foodFatVal">-</div><small>fat g (est)</small></div>
+              <div class="nutri-item"><div id="foodProtVal">-</div><small>protein g (est)</small></div>
+            </div>
+
+            <div id="foodReasonList" class="reasons"></div>
+
+            <div class="insight-block">
+              <h4>Ingredient hints</h4>
+              <div id="foodIngredientExplainer">—</div>
+            </div>
+
+            <div class="insight-block">
+              <h4>Recommendation</h4>
+              <div id="foodAdvice">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel history-panel">
+          <div class="panel-head"><h3>History</h3></div>
+          <div class="panel-body"><div id="foodHistory">No classifications yet.</div></div>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer class="ns-footer">
+      <small>Project made by B.Tech</small>
+    </footer>
+  </div>
+
+  <script src="food-scanner.js"></script>
+</body>
+</html>

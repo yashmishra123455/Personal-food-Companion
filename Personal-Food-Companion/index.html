@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriScan - Food Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-apple-alt"></i>
+                <span>NutriScan</span>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href=".features-section">Demo</a></li>
+                    <!-- <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#download">Download</a></li>
+        <li><a href="#contact">Contact</a></li> -->
+                    <li class="auth-dropdown">
+                        <a href="#" id="authButton">Login / Signup</a>
+                        <div class="dropdown-content" id="authMenu">
+                            <button onclick="manualLogin()">Manual Login</button>
+                            <button onclick="manualSignup()">Manual Signup</button>
+                            <div class="divider"></div>
+                            <button onclick="googleAuth()">
+                                <i class="fab fa-google"></i> Continue with Google
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLogin">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required />
+                <input type="password" placeholder="Password" required />
+                <button type="submit">Login</button>
+                <div class="divider">or</div>
+                <button type="button" class="google-btn" onclick="googleAuth()">
+                    <i class="fab fa-google"></i> Continue with Google
+                </button>
+            </form>
+            <p>Don't have an account? <a href="#" id="openSignup">Sign Up</a></p>
+        </div>
+    </div>
+
+    <!--  SIGNUP MODAL -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSignup">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <input type="text" placeholder="Full Name" required />
+                <input type="email" placeholder="Email" required />
+                <input type="password" placeholder="Password" required />
+                <button type="submit">Sign Up</button>
+                <div class="divider">or</div>
+                <button type="button" class="google-btn" onclick="googleAuth()">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+            </form>
+            <p>Already have an account? <a href="#" id="openLogin">Login</a></p>
+        </div>
+    </div>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Welcome to NutriScan</h1>
+            <p>NutriScan is your personal food assistant. Our mission is to help you make healthier food choices by
+                scanning packaged products, analyzing ingredients, and giving you personalized nutrition advice.</p>
+            <div class="hero-buttons">
+                <a href="#download" class="btn">Download Now</a>
+                <a href=".features-section" class="btn btn-secondary">Try Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <h2>App Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Scan</h3>
+                    <p>Upload a photo of your belly and get an AI-powered body fat percentage estimate with detailed
+                        analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Analyze</h3>
+                    <p>Snap a photo of your meal and instantly get calorie and macronutrient data (protein, carbs,
+                        fats).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Recommend</h3>
+                    <p>Receive a personalized meal and macro plan tailored to your goals (weight loss, muscle gain,
+                        maintenance).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Track your body fat and food log progress with detailed graphs and historical data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Download the App</h3>
+                    <p>Get the Food Calorie Scanner app from the App Store or Google Play.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Set Up Your Profile</h3>
+                    <p>Enter your fitness goals, dietary preferences, and basic information.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Start Scanning</h3>
+                    <p>Use your camera to scan food or take body photos for analysis.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Track Progress</h3>
+                    <p>Monitor your nutrition and body changes with our detailed analytics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2>Our Features</h2>
+            <p>Explore our food scanning options to get detailed nutritional insights.</p>
+
+            <div class="features-container">
+                <!-- Feature 1:Barcode Scanner -->
+                <div class="feature-card">
+                    <img src="images/hero-barcode.jpeg" alt="Barcode Scanner">
+                    <h3>Barcode Scanner</h3>
+                    <p>Quickly scan packaged foods to get instant nutritional information and ingredients.</p>
+                    <button class="btn" onclick="location.href='/barcode-scanner.html'">Try Barcode Scanner</button>
+                </div>
+
+                <!-- Feature 2: Product Scan -->
+                <div class="feature-card">
+                    <img src="images/hero-productScan.jpg" alt="Product Scan">
+                    <h3>Product Scan</h3>
+                    <p>Take a photo of any food item and get detailed nutritional analysis using AI technology.</p>
+                    <button class="btn" onclick="location.href='/food-scanner.html'">Try Product Scan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Pricing Section -->
+    <!-- <section id="pricing" class="pricing-section">
+        <div class="container">
+            <h2>Choose Your Plan</h2>
+            <div class="pricing-container">
+                <div class="pricing-card">
+                    <h3>Free</h3>
+                    <div class="price price-free">$0</div>
+                    <ul>
+                        <li>5 body fat scans per month</li>
+                        <li>5 food scans per month</li>
+                        <li>7-day progress tracking</li>
+                        <li>Basic meal suggestions</li>
+                    </ul>
+                    <a href="#download" class="btn">Get Started</a>
+                </div>
+                <div class="pricing-card popular">
+                    <h3>Premium</h3>
+                    <div class="price">$9.99<span>/month</span></div>
+                    <ul>
+                        <li>Unlimited body fat and food scans</li>
+                        <li>Full progress tracking history</li>
+                        <li>Personalized meal plans</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority support</li>
+                        <li>Ad-free experience</li>
+                    </ul>
+                    <a href="#download" class="btn">Go Premium</a>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>What Our Users Say</h2>
+            <div class="testimonials-container">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "This app has completely changed how I track my nutrition. The food scanner is incredibly
+                        accurate and has helped me lose 15 pounds in 3 months!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SJ</div>
+                        <div>
+                            <h4>Sarah Johnson</h4>
+                            <p>Fitness Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "As a personal trainer, I recommend this app to all my clients. The body fat estimation feature
+                        is a game-changer for tracking progress without expensive equipment."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MR</div>
+                        <div>
+                            <h4>Mike Roberts</h4>
+                            <p>Personal Trainer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "I've tried many calorie tracking apps, but this one stands out. The AI recognition is so fast
+                        and accurate, making it easy to stay on track with my diet."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">EC</div>
+                        <div>
+                            <h4>Emily Chen</h4>
+                            <p>Health Coach</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How accurate is the food calorie scanner?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Our AI technology has been trained on millions of food images and achieves over 90% accuracy for
+                        common foods. Accuracy may vary for complex dishes with multiple ingredients.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Is my data secure and private?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we take privacy seriously. All your data is encrypted and stored securely. We never share
+                        your personal information with third parties without your consent.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I use the app without a subscription?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! Our free version offers 5 body fat scans and 5 food scans per month, which is
+                        perfect for occasional users. Upgrade to Premium for unlimited scans and advanced features.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What devices are supported?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        The app is available for both iOS (iPhone/iPad) and Android devices. It works on devices with
+                        iOS 12+ or Android 8+.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download-section">
+        <div class="container">
+            <h2>Download the App</h2>
+            <p>Get started today and track your fitness journey with our easy-to-use app. Available on both iOS and
+                Android platforms.</p>
+            <div class="download-buttons">
+                <a href="https://www.apple.com/app-store/" target="_blank" class="download-btn">
+                    <i class="fab fa-apple"></i>
+                    <div>
+                        <span>Download on the</span>
+                        <h4>App Store</h4>
+                    </div>
+                </a>
+                <a href="https://play.google.com/store" target="_blank" class="download-btn">
+                    <i class="fab fa-google-play"></i>
+                    <div>
+                        <span>Get it on</span>
+                        <h4>Google Play</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <p><i class="fas fa-envelope"></i> support@nutriscan.com</p>
+                    <p><i class="fas fa-phone"></i>+91 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Lucknow</p>
+                    <p>Have questions about our app or need support? We're here to help! Reach out to us through any of
+                        the channels above or fill out the contact form.</p>
+                </div>
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-apple-alt"></i>
+                        <span>NutriScan</span>
+                    </div>
+                    <p>Your personal assistant for tracking food calories and recommending alternaives with precision.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 NutriScan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="script.js"></script>
+
+</body>
+
+</html>

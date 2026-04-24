@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NutriScan — Barcode Scanner (Green Theme)</title>
+
+  <!-- ZXing for camera scanning + Quagga for image uploads -->
+  <script src="https://unpkg.com/@zxing/library@0.18.6/umd/index.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
+
+  <!-- Firebase (compat) - replace config in JS -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <link rel="stylesheet" href="barcode-scanner.css">
+</head>
+
+<body>
+  <div class="ns-wrap green-theme">
+
+    <!-- NAV -->
+    <nav class="ns-nav">
+      <div class="brand"> <strong>NutriScan</strong></div>
+      <div class="nav-actions">
+        <button id="btnSignUp" class="btn ghost">Sign up</button>
+        <button id="btnSignIn" class="btn ghost">Sign in</button>
+        <button id="btnSignOut" class="btn ghost" style="display:none">Sign out</button>
+      </div>
+    </nav>
+
+    <!-- MAIN GRID: 3 columns -->
+    <main class="ns-grid three-col">
+
+      <!-- COLUMN 1: PROFILE (collapsible) -->
+      <aside class="col col-left">
+        <div class="panel profile-panel">
+          <div class="panel-head">
+            <h3>Profile</h3>
+            <div>
+              <button id="toggleProfile" class="btn small ghost">Collapse</button>
+            </div>
+          </div>
+
+          <div id="profileBody" class="panel-body profile-body">
+            <form id="userProfileForm">
+              <div class="row-2">
+                <label>
+                  Name
+                  <input id="name" type="text" placeholder="Your name">
+                </label>
+                <label>
+                  Age
+                  <input id="age" type="number" min="1">
+                </label>
+              </div>
+
+              <div class="row-2">
+                <label>
+                  Gender
+                  <select id="gender">
+                    <option value="">Prefer not</option>
+                    <option>male</option>
+                    <option>female</option>
+                    <option>other</option>
+                  </select>
+                </label>
+                <label>
+                  Activity
+                  <select id="activity">
+                    <option value="sedentary">Sedentary</option>
+                    <option value="light">Light</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="active">Active</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="row-2">
+                <label>
+                  Height (cm)
+                  <input id="height" type="number">
+                </label>
+                <label>
+                  Weight (kg)
+                  <input id="weight" type="number">
+                </label>
+              </div>
+
+              <label>
+                Diet type
+                <select id="diet">
+                  <option value="omnivore">Non-vegetarian</option>
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                </select>
+              </label>
+
+              <label>
+                Health goal
+                <select id="goal">
+                  <option value="maintenance">Maintenance</option>
+                  <option value="weight_loss">Weight Loss</option>
+                  <option value="muscle_gain">Muscle Gain</option>
+                  <option value="diabetes">Diabetes</option>
+                </select>
+              </label>
+
+              <label>
+                Allergies (comma separated)
+                <input id="allergies" type="text" placeholder="peanut, gluten, dairy">
+              </label>
+
+              <div class="actions-row">
+                <button type="submit" class="btn">Save locally</button>
+                <button id="btnSaveCloud" type="button" class="btn ghost">Save to cloud</button>
+              </div>
+              <p id="saveMsg" class="save-msg">✔ Saved</p>
+            </form>
+          </div>
+        </div>
+      </aside>
+
+      <!-- COLUMN 2: SCANNER (center) -->
+      <section class="col col-center">
+        <div class="panel scanner-panel">
+          <div class="panel-head">
+            <h3>Scan Product</h3>
+          </div>
+          <div class="panel-body">
+
+            <div class="camera-stage">
+              <video id="video" autoplay muted playsinline></video>
+            </div>
+
+            <div class="controls">
+              <button id="startCamBtn" class="btn">Start Camera</button>
+              <button id="stopCamBtn" class="btn ghost">Stop</button>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <div class="upload-row">
+              <input id="imageUpload" type="file" accept="image/*" hidden>
+              <button id="uploadScanBtn" class="btn">Upload Barcode Image</button>
+              <button id="tryRotateBtn" class="btn ghost">Try rotated</button>
+            </div>
+
+            <div class="preview-box">
+              <img id="previewImage" alt="upload preview" style="display:none">
+            </div>
+
+            <div class="help small muted">Tip: upload a clear barcode image or use camera. If detection fails, try
+              rotate.</div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMN 3: RESULTS (right) -->
+      <aside class="col col-right">
+        <div class="panel result-panel">
+          <div class="panel-head">
+            <h3>Result</h3>
+            <div id="statusBadge"></div>
+          </div>
+          <div class="panel-body">
+            <div id="productInfo" class="product-info">No product scanned yet.</div>
+
+            <div id="nutriList" class="nutri-list hidden">
+              <div class="nutri-item">
+                <div id="calVal">-</div><small>kcal/100g</small>
+              </div>
+              <div class="nutri-item">
+                <div id="sugVal">-</div><small>sugar g/100g</small>
+              </div>
+              <div class="nutri-item">
+                <div id="fatVal">-</div><small>fat g/100g</small>
+              </div>
+              <div class="nutri-item">
+                <div id="protVal">-</div><small>protein g/100g</small>
+              </div>
+            </div>
+
+            <div id="reasonList" class="reasons"></div>
+
+            <div class="insight-block">
+              <h4>Ingredient insights</h4>
+              <div id="ingredientExplainer">—</div>
+            </div>
+
+            <div class="insight-block">
+              <h4>Recommendations</h4>
+              <div id="advice">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel history-panel">
+          <div class="panel-head">
+            <h3>Scan History</h3>
+          </div>
+          <div class="panel-body">
+            <div id="history">No scans yet.</div>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer class="ns-footer">
+      <small>Project made by B.Tech Students</small>
+    </footer>
+  </div>
+
+  <!-- your script (integrated logic) -->
+  <script src="barcode-scanner.js"></script>
+</body>
+
+</html>
